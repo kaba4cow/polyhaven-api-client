@@ -35,18 +35,28 @@ import com.kaba4cow.polyhaven.api.client.http.HttpResponse;
  * @see PolyhavenFileTree
  * @see HttpClient
  */
-public class PolyhavenClient {
-
-	private static final String BASE_URL = "https://api.polyhaven.com/";
+public class PolyhavenApiClient {
 
 	private static final int RESPONSE_OK = 200;
 	private static final int RESPONSE_BAD_REQUEST = 400;
 	private static final int RESPONSE_NOT_FOUND = 404;
 
+	private final String url;
+
 	/**
-	 * Constructs a new {@code PolyhavenClient} to interact with the Polyhaven API.
+	 * Constructs a new {@code PolyhavenApiClient} with specified URL to interact
+	 * with the Polyhaven API.
 	 */
-	public PolyhavenClient() {
+	public PolyhavenApiClient(String url) {
+		this.url = url;
+	}
+
+	/**
+	 * Constructs a new {@code PolyhavenApiClient} with default URL
+	 * ({@code https://api.polyhaven.com/}) to interact with the Polyhaven API.
+	 */
+	public PolyhavenApiClient() {
+		this("https://api.polyhaven.com/");
 	}
 
 	/**
@@ -58,7 +68,7 @@ public class PolyhavenClient {
 	 */
 	public String[] getAssetTypes() throws IOException, HttpException {
 		HttpRequest request = new HttpRequest("types");
-		HttpResponse response = new HttpResponse(BASE_URL + request);
+		HttpResponse response = new HttpResponse(url + request);
 		switch (response.getCode()) {
 		case RESPONSE_OK:
 			JSONArray json = response.getJSONArray();
@@ -84,7 +94,7 @@ public class PolyhavenClient {
 	 */
 	public Map<String, PolyhavenAsset> getAssets(String type, String... categories) throws IOException, HttpException {
 		HttpRequest request = new HttpRequest("assets").add("t", type).add("c", categories);
-		HttpResponse response = new HttpResponse(BASE_URL + request);
+		HttpResponse response = new HttpResponse(url + request);
 		switch (response.getCode()) {
 		case RESPONSE_OK:
 			JSONObject json = response.getJSONObject();
@@ -110,7 +120,7 @@ public class PolyhavenClient {
 	 */
 	public PolyhavenAsset getAsset(String id) throws IOException, HttpException {
 		HttpRequest request = new HttpRequest("info/" + id);
-		HttpResponse response = new HttpResponse(BASE_URL + request);
+		HttpResponse response = new HttpResponse(url + request);
 		switch (response.getCode()) {
 		case RESPONSE_OK:
 			JSONObject json = response.getJSONObject();
@@ -136,7 +146,7 @@ public class PolyhavenClient {
 	 */
 	public PolyhavenFileTree getAssetFileTree(String id) throws IOException, HttpException {
 		HttpRequest request = new HttpRequest("files/" + id);
-		HttpResponse response = new HttpResponse(BASE_URL + request);
+		HttpResponse response = new HttpResponse(url + request);
 		switch (response.getCode()) {
 		case RESPONSE_OK:
 			JSONObject json = response.getJSONObject();
@@ -160,7 +170,7 @@ public class PolyhavenClient {
 	 */
 	public PolyhavenAuthor getAuthor(String id) throws IOException, HttpException {
 		HttpRequest request = new HttpRequest("author/" + id);
-		HttpResponse response = new HttpResponse(BASE_URL + request);
+		HttpResponse response = new HttpResponse(url + request);
 		switch (response.getCode()) {
 		case RESPONSE_OK:
 			JSONObject json = response.getJSONObject();
@@ -187,7 +197,7 @@ public class PolyhavenClient {
 	 */
 	public Map<String, Integer> getAssetCategories(String type, String... in) throws IOException, HttpException {
 		HttpRequest request = new HttpRequest("categories/" + type).add("in", in);
-		HttpResponse response = new HttpResponse(BASE_URL + request);
+		HttpResponse response = new HttpResponse(url + request);
 		switch (response.getCode()) {
 		case RESPONSE_OK:
 			JSONObject json = response.getJSONObject();

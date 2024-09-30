@@ -9,20 +9,20 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.kaba4cow.polyhaven.api.client.PolyhavenClient;
+import com.kaba4cow.polyhaven.api.client.PolyhavenApiClient;
 
 public class PolyhavenBrowser extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private final PolyhavenClient client;
+	private final PolyhavenApiClient client;
 
 	private final SelectionPanel selectionPanel;
 	private final AssetListPanel assetListPanel;
 
 	private PolyhavenBrowser() {
 		super();
-		client = new PolyhavenClient();
+		client = new PolyhavenApiClient();
 		setLayout(new BorderLayout());
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -57,7 +57,7 @@ public class PolyhavenBrowser extends JFrame {
 		});
 	}
 
-	public PolyhavenClient getClient() {
+	public PolyhavenApiClient getClient() {
 		return client;
 	}
 
